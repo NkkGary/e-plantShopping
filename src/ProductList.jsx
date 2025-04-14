@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './ProductList.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CartItem from './CartItem';
-import {addItem,removeItem,updateQuantity} from './CartSlice';
+import { addItem, removeItem, updateQuantity } from './CartSlice';
 function ProductList({ onHomeClick }) {
     const dispatch = useDispatch();
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
+    const totalQuantity = useSelector(state =>
+        state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+    );
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
         setAddedToCart((prevState) => ({
-           ...prevState,
-           [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-         }));
-      };
+            ...prevState,
+            [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+        }));
+    };
 
     const plantsArray = [
         {
@@ -104,6 +107,18 @@ function ProductList({ onHomeClick }) {
             category: "Insect Repellent Plants",
             plants: [
                 {
+                    name: "Pothos",
+                    image: "https://cdn.pixabay.com/photo/2018/11/15/10/32/plants-3816945_1280.jpg",
+                    description: "Tolerates neglect and thrives in various light conditions.",
+                    cost: "$10"
+                },
+                {
+                    name: "ZZ Plant",
+                    image: "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?q=80&w=464&auto=format&fit=crop",
+                    description: "Low maintenance, survives in low light, and adds elegance to any room.",
+                    cost: "$25"
+                },
+                {
                     name: "oregano",
                     image: "https://cdn.pixabay.com/photo/2015/05/30/21/20/oregano-790702_1280.jpg",
                     description: "The oregano plants contains compounds that can deter certain insects.",
@@ -145,6 +160,18 @@ function ProductList({ onHomeClick }) {
             category: "Medicinal Plants",
             plants: [
                 {
+                    name: "Mint",
+                    image: "https://cdn.pixabay.com/photo/2016/01/07/18/16/mint-1126282_1280.jpg",
+                    description: "Fresh aroma, commonly used in teas and for its soothing effects.",
+                    cost: "$12"
+                },
+                {
+                    name: "Aloe Vera",
+                    image: "https://cdn.pixabay.com/photo/2018/04/02/07/42/leaf-3283175_1280.jpg",
+                    description: "Known for healing properties and air purification.",
+                    cost: "$14"
+                },
+                {
                     name: "Aloe Vera",
                     image: "https://cdn.pixabay.com/photo/2018/04/02/07/42/leaf-3283175_1280.jpg",
                     description: "Soothing gel used for skin ailments.",
@@ -185,6 +212,18 @@ function ProductList({ onHomeClick }) {
         {
             category: "Low Maintenance Plants",
             plants: [
+                {
+                    name: "Snake Plant",
+                    image: "https://cdn.pixabay.com/photo/2021/01/22/06/04/snake-plant-5939187_1280.jpg",
+                    description: "Produces oxygen at night and improves indoor air quality.",
+                    cost: "$15"
+                },
+                {
+                    name: "Lavender",
+                    image: "https://images.unsplash.com/photo-1611909023032-2d6b3134ecba?q=80&w=1074&auto=format&fit=crop",
+                    description: "Calming scent, great for aromatherapy and sleep support.",
+                    cost: "$20"
+                },
                 {
                     name: "ZZ Plant",
                     image: "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -269,26 +308,25 @@ function ProductList({ onHomeClick }) {
             <div className="navbar" style={styleObj}>
                 <div className="tag">
                     <div className="luxury">
-                        <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
+                        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="" />
                         <a href="/" onClick={(e) => handleHomeClick(e)}>
                             <div>
-                                <h3 style={{ color: 'white' }}>Paradise Nursery</h3>
-                                <i style={{ color: 'white' }}>Where Green Meets Serenity</i>
+                                <h3 style={{ color: 'white' }}>Gary Company</h3>
                             </div>
                         </a>
                     </div>
 
                 </div>
                 <div style={styleObjUl}>
-                    <div> <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                    <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
+                    <div> <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Gary Plants</a></div>
+                    <div > <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg> <span className="cart_quantity_count">{totalQuantity}</span></h1></a></div>
                 </div>
             </div>
             {!showCart ? (
                 <div className="product-grid">
                     {plantsArray.map((category, index) => (
                         <div key={index}>
-<h1 style={{ textAlign: 'center' }}>{category.category}</h1>
+                            <h1 style={{ textAlign: 'center' }}>{category.category}</h1>
                             <div className="product-list">
                                 {category.plants.map((plant, plantIndex) => (
                                     <div className="product-card" key={plantIndex}>
